@@ -1,0 +1,48 @@
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+// 模拟数据（实际可接数据库，如MySQL/MongoDB）
+let materials = [
+  { id: 1, title: "资料A", tags: ["学习", "文档"], time: "2024-01-01" },
+  { id: 2, title: "资料B", tags: ["工作", "报告"], time: "2024-02-01" },
+];
+let tags = ["学习", "工作", "文档", "报告"];
+
+// 搜索接口
+app.get('/api/search', (req, res) => {
+  const keyword = req.query.keyword;
+  const result = materials.filter(m => 
+    m.title.includes(keyword) || m.tags.some(t => t.includes(keyword))
+  );
+  res.json(result);
+});
+
+// 标签接口（获取所有标签）
+app.get('/api/tags', (req, res) => {
+  res.json(tags);
+});
+
+// 添加标签接口
+app.post('/api/tags', (req, res) => {
+  const newTag = req.body.tag;
+  if (newTag && !tags.includes(newTag)) {
+    tags.push(newTag);
+    res.json({ success: true, tags });
+  } else {
+    res.json({ success: false, message: "标签已存在或无效" });
+  }
+});
+
+// 删除标签接口
+app.delete('/api/tags/:tag', (req, res) => {
+  const tag = req.params.tag;
+  tags = tags.filter(t => t !== tag);
+  res.json({ success: true, tags });
+});
+
+// 启动服务
+const port = 3000;
+app.listen(port, () => {
+  console.log(`后端服务启动：http://localhost:${port}`);
+});
