@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>搜索与整理模块</title>
+  <style>
+    .tag-list { margin-top: 10px; }
+    .search-result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <!-- 搜索框 -->
+  <input type="text" id="searchInput" placeholder="输入关键词搜索资料" />
+  <button onclick="searchMaterials()">搜索</button>
+
+  <!-- 标签管理 -->
+  <div class="tag-management">
+    <h3>标签管理</h3>
+    <input type="text" id="tagInput" placeholder="输入新标签" />
+    <button onclick="addTag()">添加标签</button>
+    <div class="tag-list" id="tagList"></div>
+  </div>
+
+  <!-- 搜索结果/时间轴展示 -->
+  <div class="search-result" id="result"></div>
+
+  <script>
+    // 模拟数据（实际需对接后端）
+    let materials = [
+      { id: 1, title: "资料A", tags: ["学习", "文档"], time: "2024-01-01" },
+      { id: 2, title: "资料B", tags: ["工作", "报告"], time: "2024-02-01" },
+    ];
+    let tags = ["学习", "工作", "文档", "报告"];
+
+    // 渲染标签列表
+    function renderTags() {
+      const tagList = document.getElementById("tagList");
+      tagList.innerHTML = "";
+      tags.forEach(tag => {
+        const span = document.createElement("span");
+        span.innerHTML = `${tag} <button onclick="deleteTag('${tag}')">删除</button>`;
+        tagList.appendChild(span);
+      });
+    }
+
+    // 添加标签
+    function addTag() {
+      const input = document.getElementById("tagInput");
+      const newTag = input.value.trim();
+      if (newTag && !tags.includes(newTag)) {
+        tags.push(newTag);
+        renderTags();
+        input.value = "";
+      }
+    }
+
+    // 删除标签
+    function deleteTag(tag) {
+      tags = tags.filter(t => t !== tag);
+      renderTags();
+    }
+
+    // 搜索资料（模拟）
+    function searchMaterials() {
+      const keyword = document.getElementById("searchInput").value.trim();
+      const result = materials.filter(m => 
+        m.title.includes(keyword) || m.tags.some(t => t.includes(keyword))
+      );
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+      result.forEach(m => {
+        const p = document.createElement("p");
+        p.innerHTML = `标题：${m.title}，标签：${m.tags.join(",")}，时间：${m.time}`;
+        resultDiv.appendChild(p);
+      });
+    }
+
+    // 初始化渲染标签
+    renderTags();
+  </script>
+</body>
+</html>
