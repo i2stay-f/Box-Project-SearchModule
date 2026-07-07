@@ -1,0 +1,11 @@
+Box-Project-SearchModule/
+├── frontend/          # 前端（页面+功能）
+│   ├── index.html     # 主页面（搜索框、标签管理UI）
+│   ├── css/           # 样式文件（可选）
+│   └── js/            # 前端逻辑（搜索、标签增删等）
+├── backend/           # 后端（接口）
+│   ├── server.js      # 后端入口（Node.js示例）
+│   ├── routes/        # 路由（搜索接口、标签接口）
+│   └── models/        # 数据模型（如果用数据库）
+├── docs/              # 文档（可选，放需求说明、设计图）
+└── README.md          # 项目说明（必选，介绍模块、如何运行）
